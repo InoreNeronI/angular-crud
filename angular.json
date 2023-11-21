@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Angular-CRUD-Operations:build"
+            "buildTarget": "Angular-CRUD-Operations:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Angular-CRUD-Operations:build:production"
+              "buildTarget": "Angular-CRUD-Operations:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Angular-CRUD-Operations:build"
+            "buildTarget": "Angular-CRUD-Operations:build"
           }
         },
         "test": {
@@ -103,11 +103,17 @@
             "scripts": []
           }
         },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
+        },
+        "nightwatch-run": {
+          "builder": "@nightwatch/schematics:nightwatch",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Angular-CRUD-Operations:serve"
+            "devServerTarget": "Angular-CRUD-Operations:serve",
+            "tsConfig": "../nightwatch/tsconfig.e2e.json",
+            "config": "./nightwatch.conf.js",
+            "env": "firefox"
           },
           "configurations": {
             "production": {
@@ -115,9 +121,19 @@
             }
           }
         },
-        "deploy": {
-          "builder": "angular-cli-ghpages:deploy",
-          "options": {}
+        "e2e": {
+          "builder": "@nightwatch/schematics:nightwatch",
+          "options": {
+            "devServerTarget": "Angular-CRUD-Operations:serve",
+            "tsConfig": "../nightwatch/tsconfig.e2e.json",
+            "config": "./nightwatch.conf.js",
+            "env": "firefox"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "Angular-CRUD-Operations:serve:production"
+            }
+          }
         }
       }
     }
